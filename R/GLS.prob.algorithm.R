@@ -24,9 +24,11 @@
 #' @param sensor data.frame with daily SST data deduced from tag temperature readings (sst_deduction ouput), NULL if no SST data is available (SST will not be used)
 #' @param trn data.frame containing twilights and at least tFirst, tSecond and type (same as computed by trn_to_dataframe, ipe_to_dataframe or lotek_to_dataframe)
 #' @param act data.frame containing wet dry data (e.g. .act file from Biotrack loggers or .deg file from migrate tech loggers), NULL if no wetdry data is available (algorithm will assume that the logger was always dry)
-#' @param wetdry.resolution sampling rate of conductivity switch in sec (e.g. MK15 & MK3006 sample every 3 sec)
-#' @param backward run algorithm from end to start
-#' @param NOAA.OI.location directory location of NOAA OI V2 NCDF files as well as land mask file 'lsmask.oisst.v2.nc' (downloadable from http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html)
+#' @param wetdry.resolution sampling rate of conductivity switch in sec (e.g. MK15 & MK3006 sample every 3 sec).
+#' @param backward run algorithm in reverse.
+#' @param NOAA.OI.location directory location of NOAA OI V2 NCDF files as well as land mask file 'lsmask.oisst.v2.nc' (downloadable from http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html).
+#' @param land.mask.mod dataframe containing the geographic bounds of any modifications to the land mask.
+#' @param cross.hemisphere.migration.dates a vector two sets of dates which correspond to the expected time for each crossing of the equator. First two elements are the earliest and latest expected dates for crossing the equator in one direction and the last two elements make up the expected date window of the return.
 #' @return A list with: [1] all positions, [2] geographic median positions, [3] all possible particles, [4] input parameters, [5] model run time, [6] list of location estimates plots per timestep. List items 1 to 3 are returned as SpatialPointsDataframe.
 #'
 #' @import raster
