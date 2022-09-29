@@ -12,8 +12,3 @@ read.trn(trnfile)
 \description{
 Transforms biotrack or BAS .trn files into a data frame with tFirst, tSecond and type.
 }
-\examples{
-trn           <- twilightCalc(BBA_lux$dtime, BBA_lux$lig, ask = FALSE, LightThreshold = 2)
-summary(trn)
-
-}
