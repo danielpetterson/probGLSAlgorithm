@@ -31,7 +31,7 @@ test_that("Input Type", {
                                    ice.conc.cutoff = 1,
                                    boundary.box = c(-120,40,-90,0), #species-specific
                                    east.west.comp = T, #related to tagging location
-                                   land.mask = T, #function fails if F. Should remove as argument.
+                                   land.mask = T, #function fails if F due to data being from seabirds
                                    sensor = sensor,
                                    trn = trn,
                                    act = act,
@@ -61,7 +61,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -92,7 +92,7 @@ test_that("Input Type", {
   #                                 ice.conc.cutoff = 1,
   #                                 boundary.box = c(-120,40,-90,0), #species-specific
   #                                 east.west.comp = T, #related to tagging location
-  #                                 land.mask = T, #function fails if F. Should remove as argument.
+  #                                 land.mask = T, #function fails if F due to data being from seabirds
   #                                 sensor = sensor,
   #                                 trn = trn,
   #                                 act = act,
@@ -121,7 +121,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -150,7 +150,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -179,7 +179,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -208,7 +208,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -237,7 +237,7 @@ test_that("Input Type", {
                                     ice.conc.cutoff = 1,
                                     boundary.box = c(-120,40,-90,0), #species-specific
                                     east.west.comp = T, #related to tagging location
-                                    land.mask = T, #function fails if F. Should remove as argument.
+                                    land.mask = T, #function fails if F due to data being from seabirds
                                     sensor = sensor,
                                     trn = trn,
                                     act = act,
@@ -266,7 +266,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -295,7 +295,7 @@ test_that("Input Type", {
                                   ice.conc.cutoff = 1,
                                   boundary.box = c(-120,40,-90,0), #species-specific
                                   east.west.comp = T, #related to tagging location
-                                  land.mask = T, #function fails if F. Should remove as argument.
+                                  land.mask = T, #function fails if F due to data being from seabirds
                                   sensor = sensor,
                                   trn = trn,
                                   act = act,
@@ -328,7 +328,7 @@ test_that("The structure of the output of GLS.prob.algorithm", {
                                ice.conc.cutoff = 1,
                                boundary.box = c(-120,40,-90,0), #species-specific
                                east.west.comp = T, #related to tagging location
-                               land.mask = T, #function fails if F. Should remove as argument.
+                               land.mask = T, #function fails if F due to data being from seabirds
                                sensor = sensor,
                                trn = trn,
                                act = act,
@@ -373,7 +373,7 @@ test_that("Checks the output of GLS.prob.algorithm for a specific example datase
                                          ice.conc.cutoff = 1,
                                          boundary.box = c(-120,40,-90,0), #species-specific
                                          east.west.comp = T, #related to tagging location
-                                         land.mask = T, #function fails if F. Should remove as argument.
+                                         land.mask = T, #function fails if F due to data being from seabirds
                                          sensor = sensor,
                                          trn = trn,
                                          act = act,
@@ -401,7 +401,7 @@ test_that("Checks the output of GLS.prob.algorithm for a specific example datase
                                ice.conc.cutoff = 1,
                                boundary.box = c(-120,40,-90,0), #species-specific
                                east.west.comp = T, #related to tagging location
-                               land.mask = T, #function fails if F. Should remove as argument.
+                               land.mask = T, #function fails if F due to data being from seabirds
                                sensor = sensor,
                                trn = trn,
                                act = act,
