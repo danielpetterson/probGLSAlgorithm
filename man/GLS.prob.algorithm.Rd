@@ -79,11 +79,15 @@ GLS.prob.algorithm(
 
 \item{act}{data.frame containing wet dry data (e.g. .act file from Biotrack loggers or .deg file from migrate tech loggers), NULL if no wetdry data is available (algorithm will assume that the logger was always dry)}
 
-\item{wetdry.resolution}{sampling rate of conductivity switch in sec (e.g. MK15 & MK3006 sample every 3 sec)}
+\item{wetdry.resolution}{sampling rate of conductivity switch in sec (e.g. MK15 & MK3006 sample every 3 sec).}
 
-\item{backward}{run algorithm from end to start}
+\item{backward}{run algorithm in reverse.}
 
-\item{NOAA.OI.location}{directory location of NOAA OI V2 NCDF files as well as land mask file 'lsmask.oisst.v2.nc' (downloadable from http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html)}
+\item{NOAA.OI.location}{directory location of NOAA OI V2 NCDF files as well as land mask file 'lsmask.oisst.v2.nc' (downloadable from http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html).}
+
+\item{land.mask.mod}{dataframe containing the geographic bounds of any modifications to the land mask.}
+
+\item{cross.hemisphere.migration.dates}{a vector two sets of dates which correspond to the expected time for each crossing of the equator. First two elements are the earliest and latest expected dates for crossing the equator in one direction and the last two elements make up the expected date window of the return.}
 }
 \value{
 A list with: [1] all positions, [2] geographic median positions, [3] all possible particles, [4] input parameters, [5] model run time, [6] list of location estimates plots per timestep. List items 1 to 3 are returned as SpatialPointsDataframe.
