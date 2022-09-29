@@ -2,8 +2,7 @@
 
 export(GLS.prob.algorithm)
 export(modify.land.mask)
-export(plot.tracks.timestep.glsTracks)
-export(print.summary.tracks)
+export(plot.glsTracks)
 export(read.trn)
 export(summary.glsTracks)
 import(GeoLight)
