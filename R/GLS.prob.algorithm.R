@@ -730,29 +730,8 @@ GLS.prob.algorithm <- function (particle.number = 2000,
 #'
 #' @export
 summary.glsTracks <- function(obj,...) {
-  tracksobj.summary <- obj
-  class(tracksobj.summary) <- "summary.glsTracks"
-  return(tracksobj.summary)
-}
-
-#' Print method for summary(glsTracks)
-#'
-#' @param obj object of class "summary.glsTracks"
-#' @param ... additional arguments to be passed to methods
-#'
-#' @export
-print.summary.tracks <- function(obj,...) {
-  with(obj, {
-    cat("GLS tracks object\n")
-    cat("\nParameters:\n")
-    for (i in 1:len(`input parameters`$parameter)) {
-      cat(`input parameters`$parameter[i])
-      cat(`input parameters`$chosen[i])
-    }
-    cat("---\n")
-    cat("\n")
-  })
-  invisible()
+  # placeholder method
+  return(obj)
 }
 
 #' Generate series of plots displaying iteration location estimates at each timestep overlaid with most probable track.
@@ -761,10 +740,9 @@ print.summary.tracks <- function(obj,...) {
 #' @param zoom If T plot limits are min/max of all iteration estimates. If F plot limits are bounding box.
 #' @param ... additional arguments to be passed to method.
 #'
-#'
 #' @export
 
-plot.tracks.timestep.glsTracks <- function(obj, zoom=TRUE, ...) {
+plot.glsTracks <- function(obj, zoom=TRUE, ...) {
   if (!class(obj) == "glsTracks") stop(paste("obj is not a glsTracks object."))
   boundary.box <- unlist(lapply(strsplit(obj$`input parameters`$chosen[17], " "), as.numeric))
   iter.total <- as.numeric(obj$`input parameters`$chosen[2])
