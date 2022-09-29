@@ -6,9 +6,6 @@
 #'
 #' @import GeoLight
 #'
-#' @examples
-#' trn           <- twilightCalc(BBA_lux$dtime, BBA_lux$lig, ask = FALSE, LightThreshold = 2)
-#' summary(trn)
 #'
 #' @export
 
