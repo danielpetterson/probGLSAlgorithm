@@ -340,15 +340,14 @@ test_that("The structure of the output of GLS.prob.algorithm", {
 
   # Check length of output object and types of each element of the object
   expect_length(output, 6)
-  expect_true(class(output)=="glsTracks")
-  expect_true(class(output[[1]])[1]=="SpatialPointsDataFrame")
-  expect_true(class(output[[2]])[1]=="SpatialPointsDataFrame")
-  expect_true(class(output[[3]])[1]=="SpatialPointsDataFrame")
-  expect_true(class(output[[4]])=="data.frame")
-  expect_true(class(output[[5]])=="difftime")
-  expect_true(class(output[[6]])[1]=="gg")
-  expect_true(class(output[[6]])[2]=="ggplot")
-  expect_true(length(class(output[[6]]))==2)
+  expect_true(is(output,"glsTracks"))
+  expect_true(is(output[[1]][1],"SpatialPointsDataFrame"))
+  expect_true(is(output[[2]][1],"SpatialPointsDataFrame"))
+  expect_true(is(output[[3]][1],"SpatialPointsDataFrame"))
+  expect_true(is(output[[4]],"data.frame"))
+  expect_true(is(output[[5]],"difftime"))
+  expect_true(is(output[[6]][1],"list"))
+  expect_true(is(output[[6]][2],"list"))
 
 })
 
