@@ -1,0 +1,50 @@
+---
+title: "probGLSAlgorithm"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{probGLSAlgorithm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(probGLSAlgorithm)
+```
+
+
+## Getting Started
+
+The package depends on the installation of other packages not currently available on CRAN so these will need to be installed via Github. If
+
+```{r}
+devtools::install_github("slisovski/GeoLight")
+devtools::install_github("benjamin-merkel/probGLS")
+devtools::install_github("danielpetterson/probGLSAlgorithm")
+library(probGLSAlgorithm)
+```
+
+If you don't have `devtools` installed already, install it first.
+
+```{r}
+install.packages("devtools")
+```
+
+### Importing Data
+
+The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different models) provide raw data in different formats. The most common geolocators are manufactured by Migrate Technology Ltd. and BAS/Biotrack and use the file extensions `.lux` and .lig` respectively. This package includes functions to read in data from both these file types.
+
+```{r, eval = F}
+read.lux("file.lux")
+read.lig("file.lig")
+```
+
+
+
+
