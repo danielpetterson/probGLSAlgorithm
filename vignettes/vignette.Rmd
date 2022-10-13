@@ -19,7 +19,7 @@ library(probGLSAlgorithm)
 ```
 
 
-## Getting Started
+# Getting Started
 
 The package depends on the installation of other packages not currently available on CRAN so these will need to be installed via Github. If
 
@@ -36,15 +36,31 @@ If you don't have `devtools` installed already, install it first.
 install.packages("devtools")
 ```
 
-### Importing Data
+## Importing Data
 
-The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different models) provide raw data in different formats. The most common geolocators are manufactured by Migrate Technology Ltd. and BAS/Biotrack and use the file extensions `.lux` and .lig` respectively. This package includes functions to read in data from both these file types.
+### Light Data
+
+The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different models) provide raw data in different formats. The most common geolocators are manufactured by Migrate Technology Ltd. and BAS/Biotrack and use the file extensions `.lux` and .lig` respectively. The GeoLight package includes functions to read in data from both these file types.
 
 ```{r, eval = F}
-read.lux("file.lux")
-read.lig("file.lig")
+GeoLight::luxTrans("file.lux")
+GeoLight::ligTrans("file.lig")
 ```
 
+### Saltwater Immersion Data
+
+Some loggers record whether they are wet or dry based on conductivity sensors. While this data is not necessary to calculate location estimates, it can help to increase accuracy as species have different speed distributions depending on whether the are assumed to be in water or in flight.
+
+```{r}
+act_data <- read.csv("file.act", header = FALSE)
+colnames(act_data) <- c("X1", "dtime", "X3", "wetdry")
+act_data <- act_data[,1:4]
+# Remove error messages at the end of activity files
+act_data <- act_data %>%
+  filter(!is.na(wetdry)) %>%
+  mutate(dtime = dmy_hms(dtime))
+act <- subset(act_data, select = c(dtime, wetdry))
+```
 
 
 
