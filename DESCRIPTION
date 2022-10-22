@@ -1,7 +1,7 @@
 Package: probGLSAlgorithm
 Type: Package
 Title: probGLSAlgorithm
-Version: 0.1.1
+Version: 0.5.0
 Author: c(person(given = "Daniel",
              family = "Petterson",
              role = c("aut", "cre"),
@@ -13,6 +13,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1.9000
+Depends:
+    R (>= 4.1.0)
 Imports: GeoLight, geosphere, sp, ncdf4, raster, terra, ggplot2, Rcpp (>= 1.0.9), probGLS, tidyterra
 LinkingTo: Rcpp
 Suggests: 

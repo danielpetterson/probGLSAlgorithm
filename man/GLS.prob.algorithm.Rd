@@ -86,8 +86,6 @@ GLS.prob.algorithm(
 \item{NOAA.OI.location}{directory location of NOAA OI V2 NCDF files as well as land mask file 'lsmask.oisst.v2.nc' (downloadable from http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html).}
 
 \item{land.mask.mod}{dataframe containing the geographic bounds of any modifications to the land mask.}
-
-\item{cross.hemisphere.migration.dates}{a vector two sets of dates which correspond to the expected time for each crossing of the equator. First two elements are the earliest and latest expected dates for crossing the equator in one direction and the last two elements make up the expected date window of the return.}
 }
 \value{
 A list with: [1] all positions, [2] geographic median positions, [3] all possible particles, [4] input parameters, [5] model run time, [6] list of location estimates plots per timestep. List items 1 to 3 are returned as SpatialPointsDataframe.

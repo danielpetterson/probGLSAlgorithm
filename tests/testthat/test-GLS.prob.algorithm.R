@@ -38,8 +38,7 @@ test_that("Input Type", {
                                    wetdry.resolution = 30, #device/manufacturer dependent
                                    backward = F,
                                    NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                   land.mask.mod = land.mask.mod,
-                                   cross.hemisphere.migration.dates = NULL),
+                                   land.mask.mod = land.mask.mod),
                 "algorithm run time:")
 
   # Test that particle.number is greater than zero
@@ -68,8 +67,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "particle.number should be an int greater than zero.")
+                                  land.mask.mod = land.mask.mod), "particle.number should be an int greater than zero.")
 
 
 
@@ -99,8 +97,7 @@ test_that("Input Type", {
   #                                 wetdry.resolution = 30, #device/manufacturer dependent
   #                                 backward = F,
   #                                 NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-  #                                 land.mask.mod = land.mask.mod,
-  #                                 cross.hemisphere.migration.dates = NULL), "tagging.location needs to be (longitude, latitude) representing the initial location.")
+  #                                 land.mask.mod = land.mask.mod), "tagging.location needs to be (longitude, latitude) representing the initial location.")
 
   # Test that tagging.date won't accept non-POSIXct dates
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -128,8 +125,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "tagging.date is not a datetime.")
+                                  land.mask.mod = land.mask.mod), "tagging.date is not a datetime.")
 
   # Test that retrieval.date won't accept non-POSIXct dates
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -157,8 +153,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "retrieval.date is not a datetime.")
+                                  land.mask.mod = land.mask.mod), "retrieval.date is not a datetime.")
 
   # Test that range.solar requires a numeric vector of length 2
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -186,8 +181,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "range.solar should be a vector representing the min and max of solar angle range in degrees.")
+                                  land.mask.mod = land.mask.mod), "range.solar should be a vector representing the min and max of solar angle range in degrees.")
 
   # Test that speed.wet is a numeric vector of length 3
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -215,8 +209,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "speed.wet should be a vector representing optimal speed, speed standard deviation and max speed allowed if logger is wet in m/s")
+                                  land.mask.mod = land.mask.mod), "speed.wet should be a vector representing optimal speed, speed standard deviation and max speed allowed if logger is wet in m/s")
 
     # Test that speed.dry is a numeric vector of length 3
     expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -244,8 +237,7 @@ test_that("Input Type", {
                                     wetdry.resolution = 30, #device/manufacturer dependent
                                     backward = F,
                                     NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                    land.mask.mod = land.mask.mod,
-                                    cross.hemisphere.migration.dates = NULL), "speed.dry should be a vector representing optimal speed, speed standard deviation and max speed allowed if logger is dry in m/s")
+                                    land.mask.mod = land.mask.mod), "speed.dry should be a vector representing optimal speed, speed standard deviation and max speed allowed if logger is dry in m/s")
 
   # Test that sst.sd is a positive number
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -273,8 +265,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "sst.sd should be a non-negative number of length one.")
+                                  land.mask.mod = land.mask.mod), "sst.sd should be a non-negative number of length one.")
 
   # Test that max.sst.diff is a non-negative number
   expect_error(GLS.prob.algorithm(particle.number = 2,
@@ -302,8 +293,7 @@ test_that("Input Type", {
                                   wetdry.resolution = 30, #device/manufacturer dependent
                                   backward = F,
                                   NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                                  land.mask.mod = land.mask.mod,
-                                  cross.hemisphere.migration.dates = NULL), "max.sst.diff should be a number equal to or greater than zero.")
+                                  land.mask.mod = land.mask.mod), "max.sst.diff should be a number equal to or greater than zero.")
 
 
 })
@@ -335,8 +325,7 @@ test_that("The structure of the output of GLS.prob.algorithm", {
                                wetdry.resolution = 30, #device/manufacturer dependent
                                backward = F,
                                NOAA.OI.location = "EnvironmentalData_BAS", #location must be within testing folder due to issues with relative path
-                               land.mask.mod = land.mask.mod,
-                               cross.hemisphere.migration.dates = NULL)
+                               land.mask.mod = land.mask.mod)
 
   # Check length of output object and types of each element of the object
   expect_length(output, 6)

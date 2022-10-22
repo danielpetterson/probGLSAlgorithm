@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.trn.R
 \name{read.trn}
 \alias{read.trn}
-\title{Read in data from BAS/Biotrack devices}
+\title{Read in sunrise/sunset data from BAS/Biotrack devices}
 \usage{
 read.trn(trnfile)
 }
