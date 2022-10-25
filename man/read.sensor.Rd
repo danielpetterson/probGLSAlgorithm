@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.sensor.R
 \name{read.sensor}
 \alias{read.sensor}
-\title{Read in data from .tem or .sst files from MK7, MK15 or C65-SUPER loggers}
+\title{Read in data from .tem or .sst files from MK7, MK15 or C65-SUPER GLS tags.}
 \usage{
 read.sensor(temfile, logger.type = "MK15", temp.range = c(-2, 19))
 }
@@ -14,5 +14,5 @@ read.sensor(temfile, logger.type = "MK15", temp.range = c(-2, 19))
 \item{temp.range}{Vector containing to lowest and highest temperature values. Migrate technology loggers provide min and max temperatures for each eight hour interval.}
 }
 \description{
-Transforms .tem files into a data frame with
+Transforms .tem or .sst files into a data frame consistent with the requirements of GLS.prob.algorithm or prob_algorithm
 }

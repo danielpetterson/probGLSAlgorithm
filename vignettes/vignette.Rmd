@@ -10,7 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE
 )
 ```
 
@@ -21,9 +23,9 @@ library(probGLSAlgorithm)
 
 # Getting Started
 
-The package depends on the installation of other packages not currently available on CRAN so these will need to be installed via Github. If
+The package depends on the installation of other packages not currently available on CRAN so these will need to be installed via Github.
 
-```{r}
+```{r, eval = F}
 devtools::install_github("slisovski/GeoLight")
 devtools::install_github("benjamin-merkel/probGLS")
 devtools::install_github("danielpetterson/probGLSAlgorithm")
@@ -32,7 +34,7 @@ library(probGLSAlgorithm)
 
 If you don't have `devtools` installed already, install it first.
 
-```{r}
+```{r, eval = F}
 install.packages("devtools")
 ```
 
@@ -40,37 +42,138 @@ install.packages("devtools")
 
 ### Light Data
 
-The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different models) provide raw data in different formats. The most common geolocators are manufactured by Migrate Technology Ltd. and BAS/Biotrack and use the file extensions `.lux` and .lig` respectively. The GeoLight package includes functions to read in data from both these file types.
+The first step is to load your raw data into R. Different geolocator models provide raw data in different formats. The most common geolocators are manufactured by Migrate Technology Ltd. and BAS/Biotrack and use the file extensions `.lux` and .lig` respectively. The GeoLight package includes functions to read in data from both these file types.
 
 ```{r, eval = F}
 GeoLight::luxTrans("file.lux")
 GeoLight::ligTrans("file.lig")
 ```
 
+Light data is used to define twilight events using the threshold method. This can be done in R using `GeoLight::twilightCalc` and its advisable to set `ask` to `TRUE` so that you can manually remove any erroneous twilight estimates that result from shading. While it is possible to carry out this operation in R, each manufacturer supplies dedicated software to achieve this and using them means avoiding the issues that plague `GeoLight::twilightCalc` such as being unable to go back and modify your selection and poor visibility near the edges of the plot. If proprietary software is used then the output will be a .trn file. This can be read into R using the following function.
+
+```{r, eval = F}
+trn <- read.trn("file.trn")
+```
+
 ### Saltwater Immersion Data
 
-Some loggers record whether they are wet or dry based on conductivity sensors. While this data is not necessary to calculate location estimates, it can help to increase accuracy as species have different speed distributions depending on whether the are assumed to be in water or in flight.
+Some loggers record whether they are wet or dry based on conductivity sensors. While this data is not necessary to calculate location estimates, it can help to increase accuracy as species have different speed distributions depending on whether the are assumed to be in water or in flight. The sampling interval is device specific and you will want to check the individual data files before using this function.
 
-```{r}
-act_data <- read.csv("../testdata/testfileERROR.act", header = FALSE)
-colnames(act_data) <- c("status", "dtime", "X", "wetdry", "state")
-err <- grep("^ERROR:*", act_data$status)
-errors <- act_data[err,]
-for (i in 1:nrow(errors)) {
-  cat(paste0(errors$status[i],"\n"))
-  cat(paste0(errors$dtime[i],"\n"))
-}
-act_data <- act_data[-err,]
-act_data$dtime <- as.POSIXct(act_data$dtime, format = "%d/%m/%y %H:%M:%OS")
-act <- subset(act_data, select = c(dtime, wetdry))
+```{r, eval = F}
+act <- read.act(actfile, sampling.interval = 3, summarise.interval = 10)
 ```
 
 
 ### Temperature Data
 
-```{r}
+Temperature data from MK7, MK15 and C65-SUPER GLS loggers can be formatted using the `read.sensor` function. `read.sensor` outputs a dataframe containing median daily sea surface temperature to be cross-referenced against recordings found in the auxillary data for more accurate location estimates.
 
+```{r, eval = F}
+sen <- read.sensor(temfile, logger.type = "MK15", temp.range = c(-2,19))
+```
+
+### Landmask Customisation
+
+The landmask defines the area where location estimates will not be made if set to work with seabirds. It can also be used for land based animals by setting the land.mask argument in `GLS.prob.algorithm' to `FALSE`. This area can be expanded using the `modify.land.mask` function. There are a series of preset options as well as the ability to specify custom areas.
+
+```{r}
+land.mask.mod <- modify.land.mask(
+  med.sea = T,
+  black.sea = T,
+  baltic.sea = T,
+  caspian.sea = T,
+  arctic.ocean = F,
+  north.atlantic.ocean = T,
+  south.atlantic.ocean = T,
+  north.pacific.ocean = F,
+  south.pacific.ocean = F,
+  southern.ocean = F,
+  custom.land.mask = NULL
+)
+```
+
+The bounding box specifies the maximum range that an animal is expected to travel through. The landmask can be used to effectively restrict estimates to areas within that simple box where the animal could possibly be. This is especially useful to avoid implausible estimates during equinox periods.
+
+### Auxillary Files
+
+A number of external files are required to run the algorithm. These include the landmask file that marks out the borders of all significant landmasses, measurements of the regional concentration of ice, and the daily sea surface temperature and error. Below is an example of the files needed for 2014. You will need to download all the files for the years corresponding to the duration of your data and place them in the same folder.
+
+```
+sst.day.err.2014.nc
+(https://downloads.psl.noaa.gov//Datasets/noaa.oisst.v2.highres/sst.day.err.2014.nc)
+
+sst.day.mean.2014.nc
+(https://downloads.psl.noaa.gov//Datasets/noaa.oisst.v2.highres/sst.day.mean.2014.nc)
+
+icec.day.mean.2014.nc
+(https://downloads.psl.noaa.gov//Datasets/noaa.oisst.v2.highres/icec.day.mean.2014.nc)
+
+lsmask.oisst.v2.nc
+(https://psl.noaa.gov/repository/entry/show?entryid=synth%3Ae570c8f9-ec09-4e89-93b4-babd5651e7a9%3AL25vYWEub2lzc3QudjIuaGlnaHJlcy9sc21hc2sub2lzc3QudjIubmM%3D)
 ```
 
 
+### GLS.prob.algorithm
+
+This function is based on `probGLS::prob_algorithm` but allows for defining landmask customisations. The sixth element of the output 
+
+```{r, results='hide'}
+# light data
+trn           <- GeoLight::twilightCalc(probGLS::BBA_lux$dtime, probGLS::BBA_lux$lig, ask = FALSE, LightThreshold = 2)
+# sst data
+sen        <- probGLS::sst_deduction(datetime = probGLS::BBA_sst$dtime, temp = probGLS::BBA_sst$temp, temp.range = c(-2,30))
+# wet dry data
+act           <- probGLS::BBA_deg[probGLS::BBA_deg$wet.dry=="wet",]
+act$wetdry    <- act$duration
+# land mask mod
+land.mask.mod <- modify.land.mask(med.sea = T)
+# twilight sd
+twilightSD <- probGLS::twilight_error_estimation(2.49, 0.94, 4.98)
+
+
+pr <- GLS.prob.algorithm(
+  particle.number = 10, #number of particles per step
+  iteration.number = 5, #number of iterations/tracks to calculate
+  loess.quartile = NULL, #quartiles for loessFilter (GeoLight), if NULL loess filter is not used
+  tagging.location = c(-36.816, -54.316), #dataset-specific
+  tagging.date = as.POSIXct("2014-12-13 17:55", tz = "UTC"), #dataset-specific
+  retrieval.date = as.POSIXct("2014-12-22 08:55", tz = "UTC"), #dataset-specific
+  sunrise.sd = twilightSD, #generic for open-habitat species like seabirds
+  sunset.sd = twilightSD, #generic for open-habitat species like seabirds
+  range.solar = c(-7, -1), #range of solar angles to consider
+  speed.wet = c(1, 1.3, 5), #species-specific distribution of speed when in water. Generally set to match the speed of the local current.
+  speed.dry = c(20, 0.2, 25), #species-specific distribution of speed when not in water/flying. (optimal speed, sd, max speed)
+  sst.sd = 0.5, #standard deviation of sea-surface temperature
+  max.sst.diff = 3, #maximum sst difference to be considered
+  days.around.spring.equinox = c(10, 10), #number of days around equinox to apply the correction outlined in the probGLS paper
+  days.around.fall.equinox = c(10, 10), #note that spring and fall are relative to the northern hemisphere.
+  ice.conc.cutoff = 1, #max percentage of sea ice in which the animal is believed to be
+  boundary.box = c(-120, 40, -90, 0), #species-specific expected range of possible locations
+  east.west.comp = T,#related to tagging location
+  land.mask = T, #T to exclude location estimates on land, F to exclude estimates at sea, NULL to apply no land mask.
+  sensor = sen,
+  trn = trn,
+  act = act,
+  wetdry.resolution = 30, #device/manufacturer dependent. Sampling frequency of act file
+  backward = F, #run the algorithm backwards. Can be useful if there are issues around equinox periods.
+  NOAA.OI.location = "../tests/testthat/EnvironmentalData_BAS", # location of auxillary files
+  land.mask.mod = land.mask.mod #object from modify.land.mask or NULL if no augmentation of landmask is required.
+)
+```
+
+To access a list of plots containing more detailed information on the location estimates at each timestep you can use the lot method on the glsTracks object.
+
+```{r, eval = F}
+plot.list <- plot(pr, zoom = TRUE)
+```
+
+
+
+### Resolving issues with bounding boxes that cross the equator
+
+Some animals such as larger seabirds can have immense ranges. During the defined equinox periods, the speed distributions are ignored and latitiude values are sampled randomly from the entire range of the bounding box. This can result in what appears as massive movements in a very short amount of time. To remedy this it is advised to used the `geo.median.track` function if you know which hemisphere you expect the animal to be in over a given period. The function served to recalculate the median path using only tracks from that hemisphere which should increase the accuracy of the estimates. If there are no tracks estimated in that hemisphere at any timepoint then the original median track value will be retained.
+
+```{r}
+modified.track <- geo.median.track(pr, cross.north = NULL, cross.south = "2014-12-20")
+```
 

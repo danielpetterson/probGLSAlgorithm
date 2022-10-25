@@ -1,5 +1,3 @@
-library(probGLSAlgorithm)
-
 # light data
 trn           <- GeoLight::twilightCalc(probGLS::BBA_lux$dtime, probGLS::BBA_lux$lig, ask = FALSE, LightThreshold = 2)
 # sst data

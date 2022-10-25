@@ -30,15 +30,16 @@
 #' @param land.mask.mod dataframe containing the geographic bounds of any modifications to the land mask.
 #' @return A list with: [1] all positions, [2] geographic median positions, [3] all possible particles, [4] input parameters, [5] model run time, [6] list of location estimates plots per timestep. List items 1 to 3 are returned as SpatialPointsDataframe.
 #'
-#' @import raster
-#' @import terra
-#' @import tidyterra
 #' @import ncdf4
 #' @import geosphere
 #' @import GeoLight
 #' @import probGLS
 #' @import sp
 #' @import ggplot2
+#' @importFrom raster raster
+#' @importFrom terra rast rotate
+#' @importFrom tidyterra geom_spatraster
+#' @importFrom stats rlnorm dnorm step median
 #'
 #' @export
 
@@ -67,8 +68,7 @@ GLS.prob.algorithm <- function (particle.number = 2000,
                                 wetdry.resolution = 30,
                                 backward = F,
                                 NOAA.OI.location = NULL,
-                                land.mask.mod = NULL,
-                                cross.hemisphere.migration.dates = NULL)
+                                land.mask.mod = NULL)
 {
 
   if (!length(particle.number) == 1 | particle.number <= 0 | !is.numeric(particle.number)) stop(paste("particle.number should be an int greater than zero."))
@@ -96,16 +96,16 @@ GLS.prob.algorithm <- function (particle.number = 2000,
   if (!all(class(tagging.date) == c("POSIXct", "POSIXt"))) stop(paste("tagging.date is not a datetime."))
   if (!all(class(retrieval.date) == c("POSIXct", "POSIXt"))) stop(paste("retrieval.date is not a datetime."))
   if (tagging.date > retrieval.date) stop(paste("retrieval.date is before tagging.date"))
-  if(!is.null(cross.hemisphere.migration.dates) & !all(class(cross.hemisphere.migration.dates) == c("POSIXct", "POSIXt"))) stop(paste("cross.hemisphere.migration.dates are not in acceptable date format."))
 
-  if(class(trn)=="list") trn <- as.data.frame(lapply(trn, cbind))
-  if(!is.null(sensor) & class(sensor)=="list") sensor <- as.data.frame(lapply(sensor, cbind))
-  if(!is.null(act) & class(act)=="list") act <- as.data.frame(lapply(act, cbind))
+  if(methods::is(trn,"list")) trn <- as.data.frame(lapply(trn, cbind))
+  if(!is.null(sensor) & methods::is(sensor,"list")) sensor <- as.data.frame(lapply(sensor, cbind))
+  if(!is.null(act) & methods::is(act,"list")) act <- as.data.frame(lapply(act, cbind))
 
-  if(!class(trn)=="data.frame") stop(paste("trn argument is not a dataframe or coercible list."))
-  if(!is.null(sensor) & !class(sensor)=="data.frame") stop(paste("sensor argument is not a dataframe or coercible list."))
-  if(!is.null(act) & !class(act)=="data.frame") stop(paste("act argument is not a dataframe or coercible list."))
-  if(!is.null(land.mask.mod) & !class(land.mask.mod)=="data.frame") stop(paste("land.mask.mod argument is not a dataframe."))
+  land.mask.mod <- as.data.frame(unclass(land.mask.mod))
+  if(!methods::is(trn,"data.frame")) stop(paste("trn argument is not a dataframe or coercible list."))
+  if(!is.null(sensor) & (!methods::is(sensor,"data.frame"))) stop(paste("sensor argument is not a dataframe or coercible list."))
+  if(!is.null(act) & (!methods::is(act,"data.frame"))) stop(paste("act argument is not a dataframe or coercible list."))
+  if(!is.null(land.mask.mod) & (!methods::is(land.mask.mod,"data.frame"))) stop(paste("land.mask.mod argument is not coercible to a dataframe."))
 
   if (!all(c("tFirst","tSecond","type") == names(trn))) stop(paste("trn column names are incorrect. Try reading in data using appropriate function e.g. read_trn."))
   if (!all(c("date","SST","SST.remove") == names(sensor))) stop(paste("sensor column names are incorrect. Check input dataframe."))
@@ -122,6 +122,7 @@ GLS.prob.algorithm <- function (particle.number = 2000,
   if (!is.logical(backward)) stop(paste("backward must be either TRUE or FALSE."))
 
   start.time <- Sys.time()
+  min.lat <- max.lat <- min.lon <- max.lon <- Land.Sea.Mask <- NULL
   tFirst <- tSecond <- type <- dtime <- doy <- jday <- year <- month <- NULL
   oldw <- getOption("warn")
   options(warn = -1)
@@ -357,7 +358,8 @@ GLS.prob.algorithm <- function (particle.number = 2000,
                         title = "Land mask with bounding box",
                         subtitle = "White area within bounding box represents possible locations given current parameters."
                       ) +
-                     scale_x_continuous(breaks = seq(-180, 180, by = 10))
+                     scale_x_continuous(breaks = seq(-180, 180, by = 10)) +
+                     theme(legend.position = "none")
     })
   }
 
@@ -728,9 +730,14 @@ GLS.prob.algorithm <- function (particle.number = 2000,
 #' @param ... additional arguments to be passed to methods
 #'
 #' @export
-summary.glsTracks <- function(obj,...) {
-  # placeholder method
-  return(obj)
+summary_glsTracks <- function(obj,...) {
+  if (!methods::is(obj,"glsTracks")) stop(paste("obj is not a glsTracks object."))
+  p <- obj[[4]]
+  cat(paste("The following input parameters were used:\n" ))
+  cat(paste(p[,1], " = ", p[,2], "\n"))
+  cat(paste("\n The algorithm took", round(as.numeric(obj[[5]]),4), "minutes to process the data."))
+  cat(paste("\n There are", nrow(obj[[2]])), "location estimates in the most probable track.")
+  if (!is.null(p[28,2])) cat("\n A land mask modification was used. To view affected areas use the plot function.")
 }
 
 #' Generate series of plots displaying iteration location estimates at each timestep overlaid with most probable track.
@@ -739,10 +746,13 @@ summary.glsTracks <- function(obj,...) {
 #' @param zoom If T plot limits are min/max of all iteration estimates. If F plot limits are bounding box.
 #' @param ... additional arguments to be passed to method.
 #'
+#' @import ggplot2
+#'
 #' @export
 
-plot.glsTracks <- function(obj, zoom=TRUE, ...) {
-  if (!class(obj) == "glsTracks") stop(paste("obj is not a glsTracks object."))
+plot_glsTracks <- function(obj, zoom=TRUE, ...) {
+  if (!methods::is(obj,"glsTracks")) stop(paste("obj is not a glsTracks object."))
+  lat <- lon <- NULL
   boundary.box <- unlist(lapply(strsplit(obj$`input parameters`$chosen[17], " "), as.numeric))
   iter.total <- as.numeric(obj$`input parameters`$chosen[2])
   tag.loc <- as.numeric(unlist(strsplit(as.character(obj[[4]][4, 2]), "[ ]")))
@@ -768,7 +778,7 @@ plot.glsTracks <- function(obj, zoom=TRUE, ...) {
       geom_point(data=median.path, aes(x=lon[i], y=lat[i])) +
       ggtitle(paste("Step:", unique(obj[[1]]$step)[i], " Datetime:", obj[[1]]$dtime)[i]) +
       xlab("Longitude") + ylab("Latitude") +
-      theme (legend.position = "none")
+      theme(legend.position = "none")
       if (zoom) {
       plot.list[[i]] <- plot.list[[i]] +
         lims(x=c(min(iteration.positions$lon), max(iteration.positions$lon)), y=c(min(iteration.positions$lat), max(iteration.positions$lat)))

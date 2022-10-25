@@ -40,8 +40,6 @@ modify.land.mask(
 \item{southern.ocean}{if T classify southern ocean as land}
 
 \item{custom.land.mask}{List containing vectors of length four that define custom areas to include in land mask. The format is minimum.longitude, maximum.longitude, minimum latitude, maximum latitude.}
-
-\item{NOAA.OI.location}{The location of the NOAA OI SST V2 land mask file relative to the working directory.}
 }
 \description{
 Extends land mask found in NOAA OI SST V2 file. Land masks mark the boundaries where position estimates can not be made.

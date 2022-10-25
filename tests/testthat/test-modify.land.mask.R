@@ -1,5 +1,3 @@
-library(probGLSAlgorithm)
-
 test_that("Input Type", {
 
   # Test that input is of logical class and length 1
@@ -96,13 +94,11 @@ test_that("The structure of the output of modify.land.mask", {
   )
 
   #check number of columns
-  expect_true(ncol(output.all) == 4)
-  #check output is df
-  expect_true(class(output.all) == "data.frame")
+  expect_true(length(output.all) == 4)
+  #check output is landmask
+  expect_true(class(output.all) == "landmask")
   #check col names
   expect_true(all(c("min.lon","max.lon","min.lat","max.lat") == names(output.all)))
-  #check correct nrow with example
-  expect_true(nrow(output.all) == 21)
 
 
 })
@@ -125,10 +121,10 @@ test_that("checks the actual numerical result of the modify.land.mask for a spec
   )
 
   # Using expect_equal instead of expect_identical to allow for imperfect matching
-  expect_identical(output.check$min.lon, c(14,0,0,27,355,27,45,0), "min.lon is the same as expected.")
-  expect_identical(output.check$max.lon, c(33.5,27.0,27.0,40.0,360.0,45.0,62.0,0.0), "max.lon is the same as expected.")
-  expect_identical(output.check$min.lat, c(51.4,30.0,30.0,30.0,30.0,40.0,35.0,0.0), "min.lat is the same as expected.")
-  expect_identical(output.check$max.lat, c(66.2,48.0,48.0,40.0,42.0,48.0,48.0,0.0), "max.lat is the same as expected.")
+  expect_identical(output.check$min.lon, c(14,0,27,355,27,45,0), "min.lon is the same as expected.")
+  expect_identical(output.check$max.lon, c(33.5,27.0,40.0,360.0,45.0,62.0,0.0), "max.lon is the same as expected.")
+  expect_identical(output.check$min.lat, c(51.4,30.0,30.0,30.0,40.0,35.0,0.0), "min.lat is the same as expected.")
+  expect_identical(output.check$max.lat, c(66.2,48.0,40.0,42.0,48.0,48.0,0.0), "max.lat is the same as expected.")
 
 })
 

@@ -30,8 +30,7 @@ GLS.prob.algorithm(
   wetdry.resolution = 30,
   backward = F,
   NOAA.OI.location = NULL,
-  land.mask.mod = NULL,
-  cross.hemisphere.migration.dates = NULL
+  land.mask.mod = NULL
 )
 }
 \arguments{

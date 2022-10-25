@@ -1,6 +1,3 @@
-# output <- read.trn("tests/testthat/testdata/testfile.trn")
-# output.error <- read.trn("tests/testthat/testdata/testfileERROR.trn")
-
 test_that("Output error when present", {
 
   #check that function reads in file and generates error message

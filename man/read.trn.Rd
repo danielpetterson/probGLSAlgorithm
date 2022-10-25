@@ -10,5 +10,5 @@ read.trn(trnfile)
 \item{trnfile}{The name of a file downloaded from a BAS/Biotrack device}
 }
 \description{
-Transforms biotrack or BAS .trn files into a data frame with tFirst, tSecond and type.
+Transforms biotrack or BAS .trn files into a data frame with tFirst, tSecond and type. tFirst is the first twilight event of that set, type defines the associated twilight event. (1 for Sunrise, 2 for Sunset) and tSecond is the opposing twilight event. There are not necessarily 2 twilight event recordings per day if the threshold as defined in `Ekstrom, Philip A et al. 2004. “An Advance in Geolocation by Light."` is not met.
 }

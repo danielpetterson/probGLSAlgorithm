@@ -7,6 +7,7 @@
 #' @param summarise.interval The number of minutes to sum all the wet state changes. Defaults to 10 minutes.
 #'
 #' @import dplyr
+#' @importFrom utils read.csv
 #'
 #' @export
 
@@ -15,7 +16,9 @@ read.act <- function(actfile, sampling.interval = 3, summarise.interval = 10) {
   if (!length(sampling.interval) == 1 | !is.numeric(sampling.interval)) stop(paste("sampling.interval should be the number of seconds between each conductivity measurement. This is device specific."))
   if (!length(summarise.interval) == 1 | !is.numeric(summarise.interval)) stop(paste("summarise.interval should be the number of minutes over which the total number of wet recordings are aggregated."))
 
-  act_data <- read.csv(actfile, header = FALSE)
+  state <- dtime <- is_wet <- wetdry <- NULL
+
+  act_data <- utils::read.csv(actfile, header = FALSE)
   if (NCOL(act_data == 5)) {
     colnames(act_data) <- c("status", "DateTime", "V3", "V4", "state")
 

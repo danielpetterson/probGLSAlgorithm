@@ -13,7 +13,6 @@
 #' @param south.pacific.ocean if T classify south pacific ocean as land
 #' @param southern.ocean if T classify southern ocean as land
 #' @param custom.land.mask List containing vectors of length four that define custom areas to include in land mask. The format is minimum.longitude, maximum.longitude, minimum latitude, maximum latitude.
-#' @param NOAA.OI.location The location of the NOAA OI SST V2 land mask file relative to the working directory.
 #'
 #'
 #' @export
@@ -50,7 +49,6 @@ modify.land.mask <- function (med.sea = F,
     landmaskdf <- rbind(landmaskdf, list(14, 33.5, 51.4, 66.2))
   if (med.sea == T) {
     landmaskdf <- rbind(landmaskdf, list(0, 27, 30, 48))
-    landmaskdf <- rbind(landmaskdf, list( 0,27, 30 , 48))
     landmaskdf <- rbind(landmaskdf, list( 27, 40, 30 , 40))
     landmaskdf <- rbind(landmaskdf, list(355,360, 30 , 42))
   }
@@ -87,6 +85,22 @@ modify.land.mask <- function (med.sea = F,
   }
 
   colnames(landmaskdf) <- c('min.lon', 'max.lon', 'min.lat', 'max.lat')
+  class(landmaskdf) <- "landmask"
 
   return(landmaskdf)
+}
+
+#' Summary method for landmask object
+#'
+#' @param obj object of class "landmask"
+#' @param ... additional arguments to be passed to methods
+#'
+#' @export
+summary_landmask <- function(obj,...) {
+  if (!methods::is(obj,"landmask")) stop(paste("obj is not a landmask object."))
+  landmaskdf <- as.data.frame(unclass(obj))
+  if (nrow(landmaskdf) > 0) {
+    cat("The following dimensions were used to augment the default landmask:\n\n")
+    landmaskdf
+  }
 }

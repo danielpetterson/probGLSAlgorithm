@@ -1,14 +1,16 @@
 #' Read in sunrise/sunset data from BAS/Biotrack devices
 #'
-#' Transforms biotrack or BAS .trn files into a data frame with tFirst, tSecond and type.
+#' Transforms biotrack or BAS .trn files into a data frame with tFirst, tSecond and type. tFirst is the first twilight event of that set, type defines the associated twilight event. (1 for Sunrise, 2 for Sunset) and tSecond is the opposing twilight event. There are not necessarily 2 twilight event recordings per day if the threshold as defined in `Ekstrom, Philip A et al. 2004. “An Advance in Geolocation by Light."` is not met.
 #'
 #' @param trnfile The name of a file downloaded from a BAS/Biotrack device
+#'
+#' @importFrom utils read.csv
 #'
 #' @export
 
 read.trn <- function(trnfile) {
 
-  data <- read.csv(trnfile, header = FALSE)
+  data <- utils::read.csv(trnfile, header = FALSE)
 
   err <- grep("^ERROR:*", data$V1)
   errors <- data[err,]

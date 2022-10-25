@@ -2,17 +2,17 @@
 % Please edit documentation in R/geo.median.track.R
 \name{geo.median.track}
 \alias{geo.median.track}
-\title{Function to recalculate track with possibilities in non-active hemisphere removed}
+\title{Function to recalculate track with possibilities in non-active hemisphere removed.}
 \usage{
 geo.median.track(pr, cross.north = NULL, cross.south = NULL)
 }
 \arguments{
+\item{pr}{The output from GLS.prob.algorithm or prob_algorithm functions.}
+
 \item{cross.north}{The expected date that a subject would cross the equator to the northern hemisphere. Character string in the form of "2022-04-15". NULL if a northward crossing isn't expected.}
 
-\item{all.tracks}{First element of output from GLS.prob.algorithm function. All possible tracks.}
-
-\item{cross.southThe}{The expected date that a subject would cross the equator to the southern hemisphere. Character string in the form of "2022-04-15". NULL if a southward crossing isn't expected.}
+\item{cross.south}{The expected date that a subject would cross the equator to the southern hemisphere. Character string in the form of "2022-04-15". NULL if a southward crossing isn't expected.}
 }
 \description{
-Function to recalculate track with possibilities in non-active hemisphere removed
+Due to the difficulty in deriving location estimates during periods of equinox, the algorithm samples randomly from the range of possible latitude values that lie within the bounding box with no regard for the speed distribution. This function is to be used if the bounding box crosses the equator and it is known which hemisphere the subject would be in during a given time period. Estimates prior to the earlier of either the cross.north or cross.south dates are the original median.track values. From the first until the later date, the median track will attempt to be estimated from all possible tracks/iterations from the initial hemisphere. i.e. cross.north < cross.south then between these dates only tracks in the northern hemisphere will be considered. Following the latter date, if it is set, the reverse will occur. In the event that there are no tracks in a given hemisphere over either of these periods, the original most probable track values will be used. For recordings spanning a long time/ multiple crossings, the data will need to be subset to smaller timeframes.
 }

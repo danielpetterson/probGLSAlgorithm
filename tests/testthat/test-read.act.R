@@ -1,8 +1,3 @@
-library(probGLSAlgorithm)
-
-# output <- read.act("tests/testthat/testdata/testfile.act")
-# output.error <- read.act("tests/testthat/testdata/testfileERROR.act")
-
 test_that("Input type", {
 
   expect_error(read.act("testdata/testfileERROR.act", sampling.interval = "test"), "sampling.interval should be the number of seconds between each conductivity measurement. This is device specific.")
