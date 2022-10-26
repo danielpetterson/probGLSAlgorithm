@@ -95,7 +95,9 @@ modify.land.mask <- function (med.sea = F,
 #' @param obj object of class "landmask"
 #' @param ... additional arguments to be passed to methods
 #'
+#' @export summary_landmask
 #' @export
+
 summary_landmask <- function(obj,...) {
   if (!methods::is(obj,"landmask")) stop(paste("obj is not a landmask object."))
   landmaskdf <- as.data.frame(unclass(obj))

@@ -1,7 +1,7 @@
 Package: probGLSAlgorithm
 Type: Package
 Title: probGLSAlgorithm
-Version: 1.0.0
+Version: 1.0.1
 Author: c(person(given = "Daniel",
              family = "Petterson",
              role = c("aut", "cre"),

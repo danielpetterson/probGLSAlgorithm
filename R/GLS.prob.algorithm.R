@@ -335,6 +335,7 @@ GLS.prob.algorithm <- function (particle.number = 2000,
   coordinates(sp7) <- cbind(sp7$lon, sp7$lat)
   proj4string(sp7) <- CRS(proj.latlon)
   sp7$landmask <- raster::extract(landms, sp7)
+  possible.area <- NULL
   if (!is.null(land.mask) && !is.null(land.mask.mod)) {
     for (i in 1:nrow(land.mask.mod)) {
       sp7$landmask[sp7$lon > land.mask.mod[i, 1] &
@@ -356,10 +357,9 @@ GLS.prob.algorithm <- function (particle.number = 2000,
                         x = "",
                         y = "",
                         title = "Land mask with bounding box",
-                        subtitle = "White area within bounding box represents possible locations given current parameters."
-                      ) +
+                        subtitle = "White area within bounding box represents possible locations given current parameters") +
                      scale_x_continuous(breaks = seq(-180, 180, by = 10)) +
-                     theme(legend.position = "none")
+                     guides(fill="none", color="none")
     })
   }
 
@@ -729,6 +729,7 @@ GLS.prob.algorithm <- function (particle.number = 2000,
 #' @param obj object of class "glsTracks"
 #' @param ... additional arguments to be passed to methods
 #'
+#' @export summary_glsTracks
 #' @export
 summary_glsTracks <- function(obj,...) {
   if (!methods::is(obj,"glsTracks")) stop(paste("obj is not a glsTracks object."))
@@ -748,6 +749,7 @@ summary_glsTracks <- function(obj,...) {
 #'
 #' @import ggplot2
 #'
+#' @export plot_glsTracks
 #' @export
 
 plot_glsTracks <- function(obj, zoom=TRUE, ...) {

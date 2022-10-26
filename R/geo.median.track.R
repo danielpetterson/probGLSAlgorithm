@@ -63,7 +63,9 @@ geo.median.track <- function(pr, cross.north = NULL, cross.south = NULL){
 #' @param obj object of class "modifiedTrack"
 #' @param ... additional arguments to be passed to methods
 #'
+#' @export summary_modifiedTrack
 #' @export
+
 summary_modifiedTrack <- function(obj,...) {
   if (!methods::is(obj,"modifiedTrack")) stop(paste("obj is not a modifiedTrack object."))
   mTrackD <- unclass(obj)@data
