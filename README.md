@@ -33,6 +33,8 @@
 </ul>
 <p>In addition to these the function also takes in custom coordinates as defined by minimum longitude, maximum longitude, minimum latitude, maximum latitude. The output of <code>probGLSAlgorithm::GLS.prob.algorithm</code> includes a map which displays the coverage of the land mask applied for visual confirmation of the area that the custom land mask includes should it be altered. The land mask is important due to the nature of the algorithm which takes the geographic median point of each new set of location estimates as the next point in each track/iteration and the most probable path is calculated as the median path of all tracks/iterations. During the aforementioned study we had issues with location estimates occuring on the other side of North America which is impossible and occured because there was no way to restrict estimate locations besides narrowing the bounding box, the expected range of the birds.</p>
 
+![](https://danielpetterson.github.io/assets/img/SootyShearwater.png)
+
 <p>The attached image displays the issue clearly. The bounding box needed to allow for tracking around the southern tip of South America where the birds were known to have previously traveled but this also allowed for the estimates to be generated off the east coast of North America. With the ability to fine tune the allowed area via <code>probGLSAlgorithm::modify.land.mask</code> this is no longer an issue and skewing is less problematic.</p>
 </div>
 <div id="differences-in-formatting-between-devices-and-manufacturers" class="section level3">
