@@ -13,9 +13,11 @@
 <meta name="author" content="Daniel Petterson" />
 
 
-<title>probGLSAlgorithm</title>
+# probGLSAlgorithm
 
-d with the Department of Conservation to assess the viability of using this method to estimate the location and frequency of artificial light events for a variety of species native to New Zealand. While the algorithm has been shown to provide accurate estimates under the right conditions, limitations in the functionality and applying it to species that had a much larger range than previously used led to issues.</p>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>The primary motivation behind the development of this package was to eliminate friction points, streamline data formatting and expand the capabilities of the existing packages that are used to estimate locations via light-level loggers/global location sensor (GLS) tags. Due to the hardware limitations of some models of GLS tags, namely their inability to record light intensity beyond a small range, the algorithm used in <code>probGLS</code> <span class="citation">(<a href="#ref-merkel2016probabilistic" role="doc-biblioref">Merkel et al. 2016</a>)</span> provides more reliable estimates than the methods available in other packages for tracking species that exist in areas of low shading. This method is used to great effect by the <a href="https://seapop.no/en/seatrack/">SEATRACK project</a> to map the distribution and flight patterns of a variety of seabirds native to the North Atlantic and neighbouring areas. Last summer I worked with the Department of Conservation to assess the viability of using this method to estimate the location and frequency of artificial light events for a variety of species native to New Zealand. While the algorithm has been shown to provide accurate estimates under the right conditions, limitations in the functionality and applying it to species that had a much larger range than previously used led to issues.</p>
 <div id="issues-with-existing-packages" class="section level2">
 <h2>Issues with existing packages</h2>
 <div id="land-mask" class="section level3">
