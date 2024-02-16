@@ -44,10 +44,10 @@
 </div>
 </div>
 <div id="the-process-of-development" class="section level1">
-<h1>The process of development</h1>
+<h1>Development Process</h1>
 <div id="initial-concept" class="section level2">
 <h2>Initial concept</h2>
-<p>The package was clearly inspired by my previous work with the related packages. Through that I identified multiple modifications that I thought would be most useful to someone trying to do similar work. I had planned to include a much larger number of <code>read.x</code> functions for specific device models but realised that I could condense them quite easily. Some devices haven’t been available for sale in over a decade and with the non-user replaceable batteries it was unlikely that there was a need to cover their specific formatting. I wanted the main function <code>GLS.prob.algorithm</code> to be easily swappable with <code>probGLS::prob_algorithm</code> to minimise the work required if a user wanted to migrate from the original version to take advantage of some of the functionality.</p>
+<p>The package was inspired by my previous work tracking seabirds. This work seeks to remedy a few issues that may become apparent to someone trying to do similar work outside of Eurasia. I had planned to include a much larger number of <code>read.x</code> functions for specific device models but realised that I could condense them quite easily. Some devices haven’t been available for sale in over a decade and with the non-user replaceable batteries it was unlikely that there was a need to cover their specific formatting. I wanted the main function <code>GLS.prob.algorithm</code> to be easily swappable with <code>probGLS::prob_algorithm</code> to minimise the work required if a user wanted to migrate from the original version to take advantage of some of the functionality.</p>
 </div>
 <div id="implementation-of-ideas" class="section level2">
 <h2>Implementation of ideas</h2>
@@ -73,6 +73,8 @@ Note: The <code>read.sensor</code> function will process C65-SUPER tag data and 
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <p>I attempted to minimise the number of dependencies used unless they showed a clear benefit such as <code>terra</code>/<code>tidyterra</code> which are significantly faster than the <code>raster</code> alternatives. A handful of operations were problematic to get working in base R so <code>dplyr</code> was required. This seemed a reasonable trade off as the tidyverse has continued support and most R users would already have <code>dplyr</code> installed. I opted to use the base R piping function instead of the more commonly seen <code>magrittr</code> pipe which does mean that a more recent version of R is required. 
+
+Feel free to reach out to me if you have any questions.
 </p>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-merkel2016probabilistic" class="csl-entry">
